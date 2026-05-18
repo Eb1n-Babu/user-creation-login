@@ -1,8 +1,12 @@
+from .models import Accounts
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
-from .form import RegistrationForm  # your custom form
+from .form import RegistrationForm
 from django.contrib.auth.decorators import login_required
+from .serializers import account_detail_serializer
+from rest_framework import viewsets
+
 
 def register_view(request):
     if request.method == 'POST':
@@ -27,4 +31,10 @@ def login_view(request):
 
 @login_required
 def home_view(request):
-    return render(request, 'home.html')
+    user_name = request.user.username   # ✅ already available
+    return render(request, 'home.html', {'username': user_name})
+
+
+class AccountViewSet(viewsets.ModelViewSet):
+    queryset = Accounts.objects.all()
+    serializer_class = account_detail_serializer

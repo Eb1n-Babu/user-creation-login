@@ -30,6 +30,7 @@ env/
 .venv/
 .ENV/
 .env/
+.env
 
 # PyInstaller
 *.manifest
